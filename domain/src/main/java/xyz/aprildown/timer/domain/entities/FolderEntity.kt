@@ -18,4 +18,5 @@ data class FolderEntity(
 
 enum class FolderSortBy {
     AddedNewest, AddedOldest, RunNewest, RunOldest, AToZ, ZToA,
+    DurationLongest, DurationShortest, HardnessHardest, HardnessEasiest,
 }

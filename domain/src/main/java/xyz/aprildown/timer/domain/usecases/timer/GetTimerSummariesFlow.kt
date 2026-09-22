@@ -23,7 +23,14 @@ class GetTimerSummariesFlow @Inject constructor(
         return repository.getTimerFlow(folderId)
             .map { timers ->
                 timers.map { TimerSummaryCalculator.calculate(it) }
-                    .sort(timerStampRepository, sortBy, { it.id }, { it.name })
+                    .sort(
+                        timerStampRepository,
+                        sortBy,
+                        { it.id },
+                        { it.name },
+                        { it.totalDuration },
+                        { it.difficultyFactor },
+                    )
             }
             .flowOn(dispatcher)
     }

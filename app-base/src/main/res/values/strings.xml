@@ -84,6 +84,10 @@
     <string name="folder_sort_run_oldest">Oldest run first</string>
     <string name="folder_sort_a_to_z">Name A ➝ Z</string>
     <string name="folder_sort_z_to_a">Name Z ➝ A</string>
+    <string name="folder_sort_duration_longest">Longest duration first</string>
+    <string name="folder_sort_duration_shortest">Shortest duration first</string>
+    <string name="folder_sort_hardness_hardest">Hardest first</string>
+    <string name="folder_sort_hardness_easiest">Easiest first</string>
     <string name="folder_to_list_view">Switch to list view</string>
     <string name="folder_to_grid_view">Switch to grid view</string>
 

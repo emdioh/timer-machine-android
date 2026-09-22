@@ -110,6 +110,10 @@ internal class FolderToolbar(
                     addItem(RBase.string.folder_sort_run_oldest, FolderSortBy.RunOldest)
                     addItem(RBase.string.folder_sort_a_to_z, FolderSortBy.AToZ)
                     addItem(RBase.string.folder_sort_z_to_a, FolderSortBy.ZToA)
+                    addItem(RBase.string.folder_sort_duration_longest, FolderSortBy.DurationLongest)
+                    addItem(RBase.string.folder_sort_duration_shortest, FolderSortBy.DurationShortest)
+                    addItem(RBase.string.folder_sort_hardness_hardest, FolderSortBy.HardnessHardest)
+                    addItem(RBase.string.folder_sort_hardness_easiest, FolderSortBy.HardnessEasiest)
                 }
             }.show(context, it)
         }

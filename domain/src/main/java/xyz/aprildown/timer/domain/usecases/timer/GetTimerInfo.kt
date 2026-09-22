@@ -22,8 +22,17 @@ class GetTimerInfo @Inject constructor(
     data class Params(val folderId: Long, val sortBy: FolderSortBy)
 
     override suspend fun create(params: Params): List<TimerInfo> {
+        // TimerInfo has no duration or difficulty, so fall back to the added order.
+        val sortBy = when (params.sortBy) {
+            FolderSortBy.DurationLongest,
+            FolderSortBy.DurationShortest,
+            FolderSortBy.HardnessHardest,
+            FolderSortBy.HardnessEasiest -> FolderSortBy.AddedOldest
+
+            else -> params.sortBy
+        }
         return repository.getTimerInfo(params.folderId)
-            .sort(timerStampRepository, params.sortBy, { it.id }, { it.name })
+            .sort(timerStampRepository, sortBy, { it.id }, { it.name })
     }
 }
 
@@ -32,6 +41,8 @@ internal suspend fun <T> List<T>.sort(
     sortBy: FolderSortBy,
     idOf: (T) -> Int,
     nameOf: (T) -> String,
+    durationOf: (T) -> Long = { 0L },
+    difficultyOf: (T) -> Double = { 0.0 },
 ): List<T> {
     return when (sortBy) {
         FolderSortBy.AddedNewest -> sortedByDescending { idOf(it) }
@@ -52,5 +63,9 @@ internal suspend fun <T> List<T>.sort(
                 }
             }
         }
+        FolderSortBy.DurationLongest -> sortedByDescending { durationOf(it) }
+        FolderSortBy.DurationShortest -> sortedBy { durationOf(it) }
+        FolderSortBy.HardnessHardest -> sortedByDescending { difficultyOf(it) }
+        FolderSortBy.HardnessEasiest -> sortedBy { difficultyOf(it) }
     }
 }
