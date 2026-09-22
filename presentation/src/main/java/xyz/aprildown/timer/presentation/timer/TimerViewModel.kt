@@ -19,7 +19,7 @@ import xyz.aprildown.timer.domain.di.MainDispatcher
 import xyz.aprildown.timer.domain.entities.FolderEntity
 import xyz.aprildown.timer.domain.entities.FolderSortBy
 import xyz.aprildown.timer.domain.entities.TimerEntity
-import xyz.aprildown.timer.domain.entities.TimerInfo
+import xyz.aprildown.timer.domain.entities.TimerSummary
 import xyz.aprildown.timer.domain.usecases.Fruit
 import xyz.aprildown.timer.domain.usecases.folder.AddFolder
 import xyz.aprildown.timer.domain.usecases.folder.DeleteFolder
@@ -33,7 +33,7 @@ import xyz.aprildown.timer.domain.usecases.timer.AddTimer
 import xyz.aprildown.timer.domain.usecases.timer.ChangeTimerFolder
 import xyz.aprildown.timer.domain.usecases.timer.DeleteTimer
 import xyz.aprildown.timer.domain.usecases.timer.GetTimer
-import xyz.aprildown.timer.domain.usecases.timer.GetTimerInfoFlow
+import xyz.aprildown.timer.domain.usecases.timer.GetTimerSummariesFlow
 import xyz.aprildown.timer.domain.usecases.timer.ShareTimer
 import xyz.aprildown.timer.presentation.BaseViewModel
 import xyz.aprildown.timer.presentation.StreamMachineIntentProvider
@@ -43,7 +43,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TimerViewModel @Inject constructor(
     @MainDispatcher mainDispatcher: CoroutineDispatcher,
-    private val getTimerInfoFlow: GetTimerInfoFlow,
+    private val getTimerSummariesFlow: GetTimerSummariesFlow,
     private val addTimer: AddTimer,
     private val getTimer: GetTimer,
     private val changeTimerFolder: ChangeTimerFolder,
@@ -81,11 +81,11 @@ class TimerViewModel @Inject constructor(
 
     private val currentSortBy: MutableLiveData<FolderSortBy> = MutableLiveData()
 
-    val timerInfo: LiveData<List<TimerInfo>> =
+    val timerInfo: LiveData<List<TimerSummary>> =
         currentFolderId.asFlow().combine(currentSortBy.asFlow()) { id, by ->
             id to by
         }.asLiveData().switchMap { (folderId, sortBy) ->
-            getTimerInfoFlow.get(folderId, sortBy).asLiveData()
+            getTimerSummariesFlow.get(folderId, sortBy).asLiveData()
         }
 
     private val _shareStringEvent = MutableLiveData<Event<Fruit<String>>>()

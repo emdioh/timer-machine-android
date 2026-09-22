@@ -23,30 +23,32 @@ class GetTimerInfo @Inject constructor(
 
     override suspend fun create(params: Params): List<TimerInfo> {
         return repository.getTimerInfo(params.folderId)
-            .sort(timerStampRepository, params.sortBy)
+            .sort(timerStampRepository, params.sortBy, { it.id }, { it.name })
     }
 }
 
-internal suspend fun List<TimerInfo>.sort(
+internal suspend fun <T> List<T>.sort(
     timerStampRepository: Lazy<TimerStampRepository>,
-    sortBy: FolderSortBy
-): List<TimerInfo> {
+    sortBy: FolderSortBy,
+    idOf: (T) -> Int,
+    nameOf: (T) -> String,
+): List<T> {
     return when (sortBy) {
-        FolderSortBy.AddedNewest -> sortedByDescending { it.id }
-        FolderSortBy.AddedOldest -> sortedBy { it.id }
-        FolderSortBy.AToZ -> sortedBy { it.name }
-        FolderSortBy.ZToA -> sortedByDescending { it.name }
+        FolderSortBy.AddedNewest -> sortedByDescending { idOf(it) }
+        FolderSortBy.AddedOldest -> sortedBy { idOf(it) }
+        FolderSortBy.AToZ -> sortedBy { nameOf(it) }
+        FolderSortBy.ZToA -> sortedByDescending { nameOf(it) }
         FolderSortBy.RunNewest -> {
             sortedByDescending {
                 runBlocking {
-                    timerStampRepository.get().getRecentOne(it.id)?.end ?: 0
+                    timerStampRepository.get().getRecentOne(idOf(it))?.end ?: 0
                 }
             }
         }
         FolderSortBy.RunOldest -> {
             sortedBy {
                 runBlocking {
-                    timerStampRepository.get().getRecentOne(it.id)?.end ?: 0
+                    timerStampRepository.get().getRecentOne(idOf(it))?.end ?: 0
                 }
             }
         }

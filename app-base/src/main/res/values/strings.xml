@@ -874,4 +874,11 @@
     <string name="billing_help_contact">Contact</string>
     <string name="billing_help_email_title">TimeR Machine Billing Issue</string>
 
+    <!--Timer list summary-->
+    <string name="timer_summary_format">%1$s · %2$s(%3$.2f)</string>
+    <string name="timer_difficulty_easy">Easy</string>
+    <string name="timer_difficulty_moderate">Moderate</string>
+    <string name="timer_difficulty_hard">Hard</string>
+    <string name="timer_difficulty_very_hard">Very hard</string>
+
 </resources>

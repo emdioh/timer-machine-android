@@ -13,7 +13,9 @@ internal class CollapsedViewHolder(
     callback: TimerAdapter.Callback
 ) : RecyclerView.ViewHolder(view) {
 
+    private val context = view.context
     private val name = view.findViewById<TextView>(R.id.textTimerName)
+    private val summary = view.findViewById<TextView>(R.id.textTimerSummary)
     private val start = view.findViewById<ImageButton>(R.id.imageTimerStartPause)
 
     init {
@@ -34,6 +36,7 @@ internal class CollapsedViewHolder(
 
     fun bind(item: MutableTimerItem) {
         name.text = item.timerName
+        summary.text = item.timerInfo.toDisplayText(context)
         start.isVisible = item.timerInfo.folderId != FolderEntity.FOLDER_TRASH
     }
 

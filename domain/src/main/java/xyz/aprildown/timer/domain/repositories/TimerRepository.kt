@@ -12,6 +12,7 @@ interface TimerRepository {
     suspend fun delete(id: Int)
     suspend fun getTimerInfoByTimerId(timerId: Int): TimerInfo?
     fun getTimerInfoFlow(folderId: Long): Flow<List<TimerInfo>>
+    fun getTimerFlow(folderId: Long): Flow<List<TimerEntity>>
     suspend fun getTimerInfo(folderId: Long): List<TimerInfo>
     suspend fun changeTimerFolder(timerId: Int, folderId: Long)
     suspend fun moveFolderTimersToAnother(originalFolderId: Long, targetFolderId: Long)

@@ -41,7 +41,7 @@ import xyz.aprildown.timer.domain.usecases.timer.AddTimer
 import xyz.aprildown.timer.domain.usecases.timer.ChangeTimerFolder
 import xyz.aprildown.timer.domain.usecases.timer.DeleteTimer
 import xyz.aprildown.timer.domain.usecases.timer.GetTimer
-import xyz.aprildown.timer.domain.usecases.timer.GetTimerInfoFlow
+import xyz.aprildown.timer.domain.usecases.timer.GetTimerSummariesFlow
 import xyz.aprildown.timer.presentation.StreamMachineIntentProvider
 import xyz.aprildown.timer.presentation.stream.StreamState
 
@@ -51,7 +51,7 @@ class TimerViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val getTimerInfoFlow: GetTimerInfoFlow = mock()
+    private val getTimerSummariesFlow: GetTimerSummariesFlow = mock()
     private val addTimer: AddTimer = mock()
     private val getTimer: GetTimer = mock()
     private val changeTimerFolder: ChangeTimerFolder = mock()
@@ -89,7 +89,7 @@ class TimerViewModelTest {
 
         val viewModel = TimerViewModel(
             mainDispatcher = StandardTestDispatcher(testScheduler),
-            getTimerInfoFlow = getTimerInfoFlow,
+            getTimerSummariesFlow = getTimerSummariesFlow,
             addTimer = addTimer,
             getTimer = getTimer,
             changeTimerFolder = changeTimerFolder,
@@ -415,7 +415,7 @@ class TimerViewModelTest {
     }
 
     private fun verifyNoMoreInteractionsForAll() {
-        verifyNoMoreInteractions(getTimerInfoFlow)
+        verifyNoMoreInteractions(getTimerSummariesFlow)
         verifyNoMoreInteractions(addTimer)
         verifyNoMoreInteractions(getTimer)
         verifyNoMoreInteractions(changeTimerFolder)

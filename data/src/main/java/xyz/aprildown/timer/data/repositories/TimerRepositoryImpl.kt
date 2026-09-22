@@ -98,6 +98,10 @@ internal class TimerRepositoryImpl @Inject constructor(
         return timerDao.getTimerInfoFlow(folderId).map { it.fromWithMapper(timerInfoMapper) }
     }
 
+    override fun getTimerFlow(folderId: Long): Flow<List<TimerEntity>> {
+        return timerDao.getTimerFlow(folderId).map { it.fromWithMapper(timerMapper) }
+    }
+
     override suspend fun changeTimerFolder(timerId: Int, folderId: Long) {
         timerDao.changeTimerFolder(timerId = timerId, folderId = folderId)
     }

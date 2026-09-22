@@ -30,6 +30,9 @@ internal interface TimerDao {
     @Query("SELECT id, name, folderId FROM TimerItem WHERE folderId = :folderId")
     fun getTimerInfoFlow(folderId: Long): Flow<List<TimerInfoData>>
 
+    @Query("SELECT * FROM TimerItem WHERE folderId = :folderId")
+    fun getTimerFlow(folderId: Long): Flow<List<TimerData>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTimer(timerItem: TimerData): Long
 
